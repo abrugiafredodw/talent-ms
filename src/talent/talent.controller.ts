@@ -1,34 +1,54 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TalentService } from './talent.service';
 import { CreateTalentDto } from './dto/create-talent.dto';
 import { UpdateTalentDto } from './dto/update-talent.dto';
+import { Talent } from './schema/talent.schema';
 
 @Controller('talent')
 export class TalentController {
   constructor(private readonly talentService: TalentService) {}
 
   @Post()
-  create(@Body() createTalentDto: CreateTalentDto) {
+  async create(@Body() createTalentDto: CreateTalentDto): Promise<Talent> {
     return this.talentService.create(createTalentDto);
   }
 
   @Get()
-  findAll() {
+  async findAll(): Promise<Talent[]> {
     return this.talentService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.talentService.findOne(+id);
+  @Get(':mail')
+  async findOne(@Param('mail') mail: string): Promise<Talent> {
+    const options = {
+      mail: mail,
+    };
+    return this.talentService.findOne(options);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTalentDto: UpdateTalentDto) {
-    return this.talentService.update(+id, updateTalentDto);
+  @Get(':mail/avail')
+  async findOneAvail(@Param('mail') mail: string): Promise<Talent> {
+    const options = {
+      mail: mail,
+      avail: true,
+    };
+    return this.talentService.findOne(options);
+  }
+
+  async update(@Body() updateTalentDto: UpdateTalentDto): Promise<Talent> {
+    return this.talentService.update(updateTalentDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.talentService.remove(+id);
+  async remove(@Param('id') id: string): Promise<Talent> {
+    return this.talentService.remove(id);
   }
 }
