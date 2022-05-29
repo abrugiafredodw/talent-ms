@@ -29,6 +29,7 @@ export class Talent {
 
   @Prop({
     required: true,
+    enum: Rol,
   })
   rol: Rol;
 
@@ -36,7 +37,6 @@ export class Talent {
     required: true,
   })
   avail: boolean;
-
 }
 
 export const TalentSchema = SchemaFactory.createForClass(Talent);
