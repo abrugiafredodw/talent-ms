@@ -17,12 +17,15 @@ export class TalentRepository {
   }
 
   async updateTalent(updateTalentDto: UpdateTalentDto): Promise<Talent> {
-    const talentCreate = new this.talentMD(updateTalentDto);
-    return talentCreate.save();
+    return this.talentMD.findOneAndUpdate(
+      { _id: updateTalentDto._id },
+      updateTalentDto,
+      { new: true },
+    );
   }
 
-  async findAll(): Promise<Talent[]> {
-    return this.talentMD.find().exec();
+  async findAll(options?: any): Promise<Talent[]> {
+    return this.talentMD.find(options).exec();
   }
 
   async findOne(options?: any): Promise<Talent> {
