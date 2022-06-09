@@ -26,6 +26,14 @@ export class TalentController {
     return this.talentService.findAll();
   }
 
+  @Get('avail')
+  async findAllAvail(): Promise<Talent[]> {
+    const options = {
+      avail: true,
+    };
+    return this.talentService.findAll(options);
+  }
+
   @Get(':mail')
   async findOne(@Param('mail') mail: string): Promise<Talent> {
     const options = {

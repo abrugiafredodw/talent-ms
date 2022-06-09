@@ -20,8 +20,8 @@ export class TalentService {
     return this.talentRp.createTalents(createTalentDto);
   }
 
-  async findAll(): Promise<Talent[]> {
-    return this.talentRp.findAll();
+  async findAll(options?: any): Promise<Talent[]> {
+    return this.talentRp.findAll(options);
   }
 
   async findOne(options: any): Promise<Talent> {
