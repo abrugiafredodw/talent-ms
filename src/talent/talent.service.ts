@@ -15,7 +15,20 @@ export class TalentService {
     };
     const talent = await this.talentRp.findOne(options);
     if (talent != null) {
-      throw new TalentException('El talento que intentas crear ya existe');
+      if (talent.avail) {
+        throw new TalentException('El talento que intentas crear ya existe');
+      } else {
+        const talentUP: UpdateTalentDto = {
+          _id: talent._id,
+          name: talent.name,
+          surname: talent.surname,
+          photo: talent.photo,
+          mail: talent.mail,
+          rol: talent.rol,
+          avail: true,
+        };
+        return this.talentRp.updateTalent(talentUP);
+      }
     }
     return this.talentRp.createTalents(createTalentDto);
   }
@@ -33,6 +46,13 @@ export class TalentService {
   }
 
   async update(updateTalentDto: UpdateTalentDto): Promise<Talent> {
+    const options = {
+      _id: updateTalentDto._id,
+    };
+    const talent = await this.talentRp.findOne(options);
+    if (talent == null) {
+      throw new TalentException('No se encontro el talento');
+    }
     return this.talentRp.updateTalent(updateTalentDto);
   }
 
@@ -42,13 +62,17 @@ export class TalentService {
       avail: true,
     };
     const talent = await this.talentRp.findOne(options);
+    if (talent == null) {
+      throw new TalentException('No se encontro el talento');
+    }
     const talentUP: UpdateTalentDto = {
       _id: talent._id,
       name: talent.name,
       surname: talent.surname,
       photo: talent.photo,
+      mail: talent.mail,
       rol: talent.rol,
-      avail: true,
+      avail: false,
     };
     return this.talentRp.updateTalent(talentUP);
   }

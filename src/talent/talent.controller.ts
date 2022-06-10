@@ -42,6 +42,14 @@ export class TalentController {
     return this.talentService.findOne(options);
   }
 
+  @Get('id/:id')
+  async findOneId(@Param('id') id: string): Promise<Talent> {
+    const options = {
+      _id: id,
+    };
+    return this.talentService.findOne(options);
+  }
+
   @Get(':mail/avail')
   async findOneAvail(@Param('mail') mail: string): Promise<Talent> {
     const options = {
@@ -51,6 +59,7 @@ export class TalentController {
     return this.talentService.findOne(options);
   }
 
+  @Patch()
   async update(@Body() updateTalentDto: UpdateTalentDto): Promise<Talent> {
     return this.talentService.update(updateTalentDto);
   }
