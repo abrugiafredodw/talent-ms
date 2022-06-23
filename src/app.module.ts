@@ -26,10 +26,7 @@ import { LoggerModule } from 'nestjs-pino';
           pinoHttp: {
             name: config.get('LOG_NAME'),
             level: config.get('LOG_LEVEL'),
-            transport:
-              config.get('ENV') === 'prod'
-                ? { target: config.get('LOG_TRANSPORT') }
-                : undefined,
+            transport: { target: config.get('LOG_TRANSPORT') },
             useLevelLabels: true,
           },
         };
